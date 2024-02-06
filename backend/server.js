@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const path = require("path");
 require("dotenv").config();
 
 const dbUrl = `mongodb+srv://grunauniclas:${process.env.DB_PASSWORD}@cluster0.2t85nrt.mongodb.net/bpmprak?retryWrites=true&w=majority`;
@@ -28,6 +29,11 @@ app.use("/labels", labelRoutes);
 
 const imageRoutes = require("./routes/imageRoutes");
 app.use("/image", imageRoutes);
+
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/build", "index.html"));
+});
 
 const PORT = process.env.PORT || 3001;
 
