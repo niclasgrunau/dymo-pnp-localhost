@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 require("dotenv").config();
 
-const dbUrl = `mongodb+srv://grunauniclas:${process.env.DB_PASSWORD}@cluster0.2t85nrt.mongodb.net/bpmprak?retryWrites=true&w=majority`;
+const dbUrl = `mongodb+srv://grunauniclas:wdmsdweeG67@cluster0.2t85nrt.mongodb.net/bpmprak?retryWrites=true&w=majority`;
 console.log(dbUrl);
 
 mongoose
