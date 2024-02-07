@@ -7,7 +7,7 @@ import QRCode from "qrcode.react";
 import { Checkbox } from "@chakra-ui/react";
 import qrcode from "qrcode";
 
-const API_ENDPOINT = "http://localhost:3001/generate-image";
+const API_ENDPOINT = "https://lehre.bpm.in.tum.de/ports/6982//generate-image";
 
 function App() {
   const maxLines = 2;
