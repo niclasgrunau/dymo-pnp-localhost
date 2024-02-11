@@ -14,6 +14,7 @@ import {
   FormLabel,
   Link,
   Modal,
+  Center,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -76,6 +77,16 @@ function App() {
     message: "",
   });
   const [fetchLabel, setFetchLabel] = useState(true);
+
+  const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
+
+  const openPrintModal = () => {
+    setIsPrintModalOpen(true);
+  };
+
+  const closePrintModal = () => {
+    setIsPrintModalOpen(false);
+  };
 
   const apiKey = "dklXZ5YlmsgocRzvqUJDewFiniUeV68sfCohvJkQKTzrqQUrwByzXJVzJYxC";
 
@@ -1000,10 +1011,44 @@ function App() {
               <Button
                 colorScheme="teal"
                 boxShadow="md"
-                onClick={handleDownloadImage}
+                onClick={openPrintModal}
               >
                 Print
               </Button>
+              <Modal isOpen={isPrintModalOpen} onClose={closePrintModal}>
+                <ModalOverlay />
+                <ModalContent
+                  style={{
+                    top: "250px",
+                    transform: "translate(-50%, 20%)",
+                  }}
+                >
+                  <ModalHeader
+                    textAlign="center"
+                    fontSize="2xl"
+                    fontWeight="bold"
+                    marginTop="10px"
+                  >
+                    Make sure your DYMO PNP LabelManager is connected
+                  </ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody
+                    style={{
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <Center>
+                      <Button
+                        colorScheme="teal"
+                        onClick={handleDownloadImage}
+                        width="200px"
+                      >
+                        Yes, print!
+                      </Button>
+                    </Center>
+                  </ModalBody>
+                </ModalContent>
+              </Modal>
             </Flex>
           </Box>
         </Box>
