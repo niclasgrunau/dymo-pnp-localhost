@@ -411,22 +411,30 @@ function App() {
 
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
+        await window.location.reload();
         setLoggedInUser(response.data.user);
         onClose();
       } else {
         console.error("Login failed");
         setLoginStatus({ success: false, message: "Wrong Email / Password" });
       }
+      await fetchUserLabels();
     } catch (error) {
       console.error("Error during login:", error);
       setLoginStatus({ success: false, message: "Wrong Email / Password" });
     }
   };
 
+  const clearUserLabels = () => {
+    setUserLabels([]);
+    setLabelsLoaded(false);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("user");
 
     setLoggedInUser(null);
+    clearUserLabels();
   };
 
   const handleSaveLabel = async () => {
@@ -475,11 +483,15 @@ function App() {
 
   const fetchUserLabels = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:6982/labels/user/${loggedInUser._id}`
-      );
-      setUserLabels(response.data);
-      setLabelsLoaded(true);
+      if (loggedInUser) {
+        const response = await axios.get(
+          `http://localhost:6982/labels/user/${loggedInUser._id}`
+        );
+        await setUserLabels(response.data);
+        setLabelsLoaded(true);
+      } else {
+        clearUserLabels();
+      }
     } catch (error) {
       console.error("Error fetching user labels:", error);
     }

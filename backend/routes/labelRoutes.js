@@ -62,6 +62,10 @@ router.get("/user/:userId", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    const userLabels = user.labels.filter(
+      (label) => label.user.toString() === userId
+    );
+
     res.status(200).json(user.labels);
   } catch (error) {
     console.error("Error retrieving labels:", error);
