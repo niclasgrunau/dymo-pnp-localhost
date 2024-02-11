@@ -377,7 +377,7 @@ function App() {
 
     try {
       const response = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/users/register",
+        "http://localhost:6982/users/register",
         {
           name,
           email,
@@ -404,13 +404,10 @@ function App() {
     resetLoginError();
 
     try {
-      const response = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/users/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post("http://localhost:6982/users/login", {
+        email,
+        password,
+      });
 
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -439,33 +436,30 @@ function App() {
         return;
       }
 
-      const response = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/labels/save",
-        {
-          userId: loggedInUser._id,
-          name: name,
-          text: inputText,
-          fontStyle: selectedFont,
-          fontSize: fontSize,
-          isBold: isBold,
-          isItalic: isItalic,
-          isUnderline: isUnderline,
-          textAlignment: textAlignLeft
-            ? "left"
-            : textAlignRight
-            ? "right"
-            : "center",
-          verticalAlignment: verticalAlignTop
-            ? "top"
-            : verticalAlignBottom
-            ? "bottom"
-            : "middle",
-          isQRCodeUsed: qrCodeVisible,
-          url: urlInput,
-          shortenedUrl: shortenedUrl,
-          createdAt: createdAt,
-        }
-      );
+      const response = await axios.post("http://localhost:6982/labels/save", {
+        userId: loggedInUser._id,
+        name: name,
+        text: inputText,
+        fontStyle: selectedFont,
+        fontSize: fontSize,
+        isBold: isBold,
+        isItalic: isItalic,
+        isUnderline: isUnderline,
+        textAlignment: textAlignLeft
+          ? "left"
+          : textAlignRight
+          ? "right"
+          : "center",
+        verticalAlignment: verticalAlignTop
+          ? "top"
+          : verticalAlignBottom
+          ? "bottom"
+          : "middle",
+        isQRCodeUsed: qrCodeVisible,
+        url: urlInput,
+        shortenedUrl: shortenedUrl,
+        createdAt: createdAt,
+      });
 
       if (response.status === 201) {
         setName("");
@@ -482,7 +476,7 @@ function App() {
   const fetchUserLabels = async () => {
     try {
       const response = await axios.get(
-        `https://lehre.bpm.in.tum.de/ports/6982/labels/user/${loggedInUser._id}`
+        `http://localhost:6982/labels/user/${loggedInUser._id}`
       );
       setUserLabels(response.data);
       setLabelsLoaded(true);
@@ -526,7 +520,7 @@ function App() {
   const handleDeleteLabel = async (labelId) => {
     try {
       const response = await axios.delete(
-        `https://lehre.bpm.in.tum.de/ports/6982/labels/${labelId}`
+        `http://localhost:6982/labels/${labelId}`
       );
 
       if (response.status === 200) {
@@ -582,12 +576,9 @@ function App() {
       document.body.removeChild(a);
       //... bis hier
       console.log(`1. image download ${new Date().toISOString()}`);
-      await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/image/saveImage",
-        {
-          imageData: dataUrl.split(",")[1],
-        }
-      );
+      await axios.post("http://localhost:6982/image/saveImage", {
+        imageData: dataUrl.split(",")[1],
+      });
       console.log(`5. helfer emthode aufrufen ${new Date().toISOString()}`);
 
       await helfer();
@@ -601,9 +592,7 @@ function App() {
     try {
       console.log(`7. resize aufgerufen ${new Date().toISOString()}`);
 
-      const response = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/image/resize"
-      );
+      const response = await axios.post("http://localhost:6982/image/resize");
 
       console.log(response.data.message);
     } catch (error) {
@@ -623,7 +612,7 @@ function App() {
       );
 
       const response = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/image/download-command"
+        "http://localhost:6982/image/download-command"
       );
       console.log(response.data.message);
     } catch (error) {
