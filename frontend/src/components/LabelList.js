@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
-  Collapse,
   Flex,
   Spacer,
   Table,
@@ -25,6 +24,7 @@ import {
 } from "@chakra-ui/react";
 import { FaRegTrashAlt, FaSearch } from "react-icons/fa";
 
+// Component for displaying a list of saved labels
 const LabelList = ({
   labelsLoaded,
   loggedInUser,
@@ -32,22 +32,27 @@ const LabelList = ({
   handleUseLabel,
   handleDeleteLabelButtonClick,
 }) => {
+  // State to manage modal visibility and search term
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Function to show the modal
   const handleShowLabels = () => {
     setShowModal(true);
   };
 
+  // Function to close the modal
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
+  // Function to use a label and close the modal
   const handleUseLabelAndCloseModal = (label) => {
     handleUseLabel(label);
     handleCloseModal();
   };
 
+  // Filter labels based on search term
   const filteredLabels = userLabels.filter((label) =>
     label.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -57,16 +62,20 @@ const LabelList = ({
 
   return (
     <>
+      {/* Button to show saved labels */}
       <Button onClick={handleShowLabels} colorScheme="blue">
         My saved labels
       </Button>
+      {/* Render the modal if labels are loaded and user is logged in */}
       {labelsLoaded && loggedInUser && userLabels.length > 0 && (
         <Box mt={8}>
+          {/* Modal for displaying saved labels */}
           <Modal isOpen={showModal} onClose={handleCloseModal} size="xl">
             <ModalOverlay />
             <ModalContent>
               <ModalHeader>My saved labels</ModalHeader>
               <ModalBody>
+                {/* Input for searching labels */}
                 <InputGroup>
                   <InputLeftElement
                     pointerEvents="none"
@@ -81,6 +90,7 @@ const LabelList = ({
               </ModalBody>
               <ModalCloseButton />
               <ModalBody>
+                {/* Table to display labels */}
                 <Box maxH="60vh" overflowY="auto">
                   <Table variant="simple">
                     <Thead>
@@ -91,6 +101,7 @@ const LabelList = ({
                       </Tr>
                     </Thead>
                     <Tbody>
+                      {/* Map through reversedLabels to render each label */}
                       {reversedLabels.map((label) => (
                         <Tr key={label._id}>
                           <Td>{label.name}</Td>

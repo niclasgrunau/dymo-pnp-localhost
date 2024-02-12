@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Button } from "@chakra-ui/react";
 import { FaAlignLeft, FaAlignRight } from "react-icons/fa";
 
+// Component for QR code alignment controls
 const QrCodeAlignmentControls = ({
   qrCodeAlignment,
   toggleQrCodeAlignment,
@@ -9,6 +10,7 @@ const QrCodeAlignmentControls = ({
   return (
     <Box>
       <Box display="flex" justifyContent="center" alignItems="center">
+        {/* Button for left alignment */}
         <Button
           onClick={toggleQrCodeAlignment}
           border="1px solid #ccc"
@@ -24,6 +26,7 @@ const QrCodeAlignmentControls = ({
           <FaAlignLeft style={{ marginRight: "10px" }} />
           Left
         </Button>
+        {/* Button for right alignment */}
         <Button
           onClick={toggleQrCodeAlignment}
           border="1px solid #ccc"

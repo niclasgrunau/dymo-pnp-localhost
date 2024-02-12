@@ -14,6 +14,7 @@ import {
 } from "react-icons/rx";
 import { IoIosArrowDown } from "react-icons/io";
 
+// Component for vertical alignment controls
 const VerticalAlignmentControls = ({
   verticalAlignTop,
   verticalAlignMiddle,
@@ -43,6 +44,7 @@ const VerticalAlignmentControls = ({
         width="50px"
       />
       <MenuList>
+        {/* MenuItem for top alignment */}
         <MenuItem
           onClick={() => onToggleVerticalAlignment("top")}
           isChecked={verticalAlignTop}
@@ -54,6 +56,7 @@ const VerticalAlignmentControls = ({
           <Icon as={RxTextAlignTop} marginRight="2" />
           Top
         </MenuItem>
+        {/* MenuItem for middle alignment */}
         <MenuItem
           onClick={() => onToggleVerticalAlignment("middle")}
           isChecked={verticalAlignMiddle}
@@ -65,6 +68,7 @@ const VerticalAlignmentControls = ({
           <Icon as={RxTextAlignMiddle} marginRight="2" />
           Middle
         </MenuItem>
+        {/* MenuItem for bottom alignment */}
         <MenuItem
           onClick={() => onToggleVerticalAlignment("bottom")}
           isChecked={verticalAlignBottom}

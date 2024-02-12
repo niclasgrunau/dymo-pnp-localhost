@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Icon } from "@chakra-ui/react";
 import { FaBold, FaItalic, FaUnderline } from "react-icons/fa";
 
+// Component for text formatting controls (bold, italic, underline)
 const TextFormattingControls = ({
   isBold,
   isItalic,
@@ -10,6 +11,7 @@ const TextFormattingControls = ({
   onToggleItalic,
   onToggleUnderline,
 }) => {
+  // Base styles for the icons
   const baseIconStyles = {
     cursor: "pointer",
     borderRadius: "md",
@@ -19,6 +21,7 @@ const TextFormattingControls = ({
 
   return (
     <Box display="flex" alignItems="center">
+      {/* Bold icon */}
       <Icon
         as={FaBold}
         color={isBold ? "gray.600" : "gray.600"}
@@ -29,6 +32,7 @@ const TextFormattingControls = ({
         {...baseIconStyles}
         onClick={onToggleBold}
       />
+      {/* Italic icon */}
       <Icon
         as={FaItalic}
         color={isItalic ? "gray.600" : "gray.600"}
@@ -40,6 +44,8 @@ const TextFormattingControls = ({
         onClick={onToggleItalic}
         marginLeft="15px"
       />
+      {/* Underline icon */}
+
       <Icon
         as={FaUnderline}
         color={isUnderline ? "gray.600" : "gray.600"}

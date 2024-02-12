@@ -1,11 +1,10 @@
-// LabelActions.js
-
 import React from "react";
 import { Flex, Input, Tooltip, Button } from "@chakra-ui/react";
 
+// Component for label actions
 const LabelActions = ({
   name,
-  setName, // Add setName as a prop
+  setName,
   tooltipLabel,
   tooltipOpen,
   setTooltipOpen,
@@ -16,6 +15,7 @@ const LabelActions = ({
 }) => {
   return (
     <Flex>
+      {/* Input field for label name */}
       <Input
         type="text"
         value={name}
@@ -24,7 +24,9 @@ const LabelActions = ({
         width="180px"
         onFocus={() => setTooltipOpen(false)}
       />
+      {/* Tooltip for saving label */}
       <Tooltip label={tooltipLabel} isOpen={tooltipOpen} placement="bottom">
+        {/* Button to save label */}
         <Button
           colorScheme="blue"
           onClick={handleSaveLabel}

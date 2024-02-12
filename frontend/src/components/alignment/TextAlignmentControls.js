@@ -14,6 +14,7 @@ import {
 } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 
+// Component for text alignment controls
 const TextAlignmentControls = ({
   textAlignLeft,
   textAlignCenter,
@@ -43,6 +44,7 @@ const TextAlignmentControls = ({
         width="50px"
       />
       <MenuList>
+        {/* MenuItem for left alignment */}
         <MenuItem
           onClick={() => onToggleAlignment("left")}
           isChecked={textAlignLeft}
@@ -54,6 +56,7 @@ const TextAlignmentControls = ({
           <Icon as={MdFormatAlignLeft} marginRight="2" />
           Left
         </MenuItem>
+        {/* MenuItem for center alignment */}
         <MenuItem
           onClick={() => onToggleAlignment("center")}
           isChecked={textAlignCenter}
@@ -65,6 +68,7 @@ const TextAlignmentControls = ({
           <Icon as={MdFormatAlignCenter} marginRight="2" />
           Center
         </MenuItem>
+        {/* MenuItem for right alignment */}
         <MenuItem
           onClick={() => onToggleAlignment("right")}
           isChecked={textAlignRight}

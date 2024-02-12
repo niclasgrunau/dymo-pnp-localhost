@@ -3,6 +3,7 @@ import { Box } from "@chakra-ui/react";
 import TextAlignmentControls from "./TextAlignmentControls";
 import VerticalAlignmentControls from "./VerticalAlignmentControls";
 
+// Component for alignment controls
 const AlignmentControls = ({
   textAlignLeft,
   textAlignCenter,

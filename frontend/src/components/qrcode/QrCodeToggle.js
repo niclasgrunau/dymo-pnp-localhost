@@ -2,7 +2,9 @@ import React from "react";
 import { Box, Icon } from "@chakra-ui/react";
 import { MdOutlineQrCode2 } from "react-icons/md";
 
+// Component for QR code toggle
 const QrCodeToggle = ({ isChecked, onClick }) => {
+  // Base styles for the toggle icon
   const baseIconStyles = {
     cursor: "pointer",
     borderRadius: "md",

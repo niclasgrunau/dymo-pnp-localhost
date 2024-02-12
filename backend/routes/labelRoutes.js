@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Label = require("../models/labelModel");
 const User = require("../models/userModel");
+
 // Save a new label
 router.post("/save", async (req, res) => {
   try {
+    // Extract label details from request body
     const {
       userId,
       name,
@@ -22,6 +24,7 @@ router.post("/save", async (req, res) => {
       createdAt,
     } = req.body;
 
+    // Create a new label instance
     const label = new Label({
       user: userId,
       name,
@@ -39,8 +42,10 @@ router.post("/save", async (req, res) => {
       createdAt,
     });
 
+    // Save the label
     await label.save();
 
+    // Add the label to the user's labels array
     await User.findByIdAndUpdate(userId, { $push: { labels: label._id } });
 
     res.status(201).json({ message: "Label saved successfully" });
@@ -60,7 +65,10 @@ router.get("/user/:userId", async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
+      // If user not found, return 404 error
     }
+
+    // Filter labels to get only the ones associated with the user
 
     const userLabels = user.labels.filter(
       (label) => label.user.toString() === userId
@@ -73,6 +81,7 @@ router.get("/user/:userId", async (req, res) => {
   }
 });
 
+// Delete a label
 router.delete("/:labelId", async (req, res) => {
   try {
     const labelId = req.params.labelId;
