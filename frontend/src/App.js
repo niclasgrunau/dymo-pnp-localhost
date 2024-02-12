@@ -960,7 +960,7 @@ function App() {
               paddingLeft="110px"
               paddingRight="110px"
               css={{
-                "@media (max-width: 999px)": {
+                "@media (max-width: 800px)": {
                   transform: "rotate(90deg)",
                   transformOrigin: "center",
                   marginTop: "360px",
