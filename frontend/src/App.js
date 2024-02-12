@@ -588,16 +588,15 @@ function App() {
 
   const downloadImage = async () => {
     try {
-      //kann man löschen am ende ...
       const canvas = canvasRef.current;
       const dataUrl = canvas.toDataURL("image/png");
       const a = document.createElement("a");
       a.href = dataUrl;
-      a.download = "DYMOPNP_label.png";
+      //a.download = "DYMOPNP_label.png";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      //... bis hier
+
       console.log(`1. image download ${new Date().toISOString()}`);
       await axios.post("http://localhost:6982/image/saveImage", {
         imageData: dataUrl.split(",")[1],
@@ -960,15 +959,17 @@ function App() {
               paddingBottom="14px"
               paddingLeft="110px"
               paddingRight="110px"
+              css={{
+                "@media (max-width: 999px)": {
+                  transform: "rotate(90deg)",
+                  transformOrigin: "center",
+                  marginTop: "360px",
+                  marginBottom: "330px",
+                },
+              }}
             >
               <Box>
-                <canvas
-                  ref={canvasRef}
-                  width={
-                    canvasSize === "small" ? 0 : canvasSize === "big" ? 0 : 531
-                  }
-                  height="69"
-                />
+                <canvas ref={canvasRef} width="531" height="69" />
               </Box>
             </Box>
           </Box>
@@ -1002,16 +1003,9 @@ function App() {
             >
               <Button
                 colorScheme="teal"
-                onClick={downloadImage}
-                marginRight={{ base: "0", md: "10px" }}
-                marginBottom={{ base: "4", md: "0" }}
-              >
-                Download
-              </Button>
-              <Button
-                colorScheme="teal"
                 boxShadow="md"
                 onClick={openPrintModal}
+                width="120px"
               >
                 Print
               </Button>
