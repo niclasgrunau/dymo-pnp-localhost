@@ -9,7 +9,14 @@ router.post("/saveImage", (req, res) => {
   console.log(`2. image download (server) ${new Date().toISOString()}`);
 
   try {
-    const imageData = req.body.imageData;
+    // Check if imageData is undefined, if yes, provide a default value
+    let imageData = req.body.imageData;
+
+    // For CPEE demo case when req.body is null
+    if (imageData === undefined) {
+      imageData =
+        "iVBORw0KGgoAAAANSUhEUgAAAhMAAABFCAYAAADw62TnAAAAAXNSR0IArs4c6QAAAy5JREFUeF7t1rENACAMBDGy/9BBYgSudfo01hc3u7vHESBAgAABAgQ+BUZMfMp5I0CAAAECBJ6AmDAEAgQIECBAIAmIicTnmQABAgQIEBATNkCAAAECBAgkATGR+DwTIECAAAECYsIGCBAgQIAAgSQgJhKfZwIECBAgQEBM2AABAgQIECCQBMRE4vNMgAABAgQIiAkbIECAAAECBJKAmEh8ngkQIECAAAExYQMECBAgQIBAEhATic8zAQIECBAgICZsgAABAgQIEEgCYiLxeSZAgAABAgTEhA0QIECAAAECSUBMJD7PBAgQIECAgJiwAQIECBAgQCAJiInE55kAAQIECBAQEzZAgAABAgQIJAExkfg8EyBAgAABAmLCBggQIECAAIEkICYSn2cCBAgQIEBATNgAAQIECBAgkATEROLzTIAAAQIECIgJGyBAgAABAgSSgJhIfJ4JECBAgAABMWEDBAgQIECAQBIQE4nPMwECBAgQICAmbIAAAQIECBBIAmIi8XkmQIAAAQIExIQNECBAgAABAklATCQ+zwQIECBAgICYsAECBAgQIEAgCYiJxOeZAAECBAgQEBM2QIAAAQIECCQBMZH4PBMgQIAAAQJiwgYIECBAgACBJCAmEp9nAgQIECBAQEzYAAECBAgQIJAExETi80yAAAECBAiICRsgQIAAAQIEkoCYSHyeCRAgQIAAATFhAwQIECBAgEASEBOJzzMBAgQIECAgJmyAAAECBAgQSAJiIvF5JkCAAAECBMSEDRAgQIAAAQJJQEwkPs8ECBAgQICAmLABAgQIECBAIAmIicTnmQABAgQIEBATNkCAAAECBAgkATGR+DwTIECAAAECYsIGCBAgQIAAgSQgJhKfZwIECBAgQEBM2AABAgQIECCQBMRE4vNMgAABAgQIiAkbIECAAAECBJKAmEh8ngkQIECAAAExYQMECBAgQIBAEhATic8zAQIECBAgICZsgAABAgQIEEgCYiLxeSZAgAABAgTEhA0QIECAAAECSUBMJD7PBAgQIECAgJiwAQIECBAgQCAJiInE55kAAQIECBAQEzZAgAABAgQIJIELe+oTQd2ywj4AAAAASUVORK5CYII=";
+    }
 
     // Define filename for saving the image
     const fileName = "DYMOPNP_label.png";
@@ -60,7 +67,7 @@ router.post("/resize", (req, res) => {
   console.log(`10. resize post fertig ${new Date().toISOString()}`);
 });
 
-// Route to download and print the resized image
+// Route to print the resized image
 router.post("/download-command", (req, res) => {
   console.log(
     `14. downloads-command aufgerufen (server) ${new Date().toISOString()}`
