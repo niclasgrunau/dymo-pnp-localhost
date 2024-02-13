@@ -747,7 +747,7 @@ function App() {
       a.href = dataUrl;
       //a.download = "DYMOPNP_label.png";
       document.body.appendChild(a);
-      a.click();
+      //a.click();
       document.body.removeChild(a);
 
       console.log(`1. image download ${new Date().toISOString()}`);
