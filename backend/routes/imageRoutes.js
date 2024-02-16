@@ -4,10 +4,47 @@ const { exec } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 
+// Variable to track if the print button is clicked
+let buttonIsClicked = false;
+
+// Route to set the print button click status
+router.post("/setPrintButtonClick", (req, res) => {
+  try {
+    // Set the buttonIsClicked variable to true
+    buttonIsClicked = true;
+    // Send a response indicating successful recording of button click
+    res.status(200).send("Button click recorded");
+  } catch (error) {
+    console.error("Error recording button click:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Route to set the trigger print button clicked status
+router.post("/setTriggerPrintButtonClicked", (req, res) => {
+  // Variable to store the print toggle status
+  let printToggle;
+
+  // Check if the print button is clicked
+  if (buttonIsClicked) {
+    // If clicked, set print toggle to true
+    printToggle = true;
+    try {
+      // Send a response indicating successful recording of button click
+      res.status(200).send(printToggle);
+    } catch (error) {
+      console.error("Error saving image:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    // If not clicked, set print toggle to false
+    printToggle = false;
+    res.status(200).send(printToggle);
+  }
+});
+
 // Route to save the image received from the client
 router.post("/saveImage", (req, res) => {
-  console.log(`2. image download (server) ${new Date().toISOString()}`);
-
   try {
     // Check if imageData is undefined, if yes, provide a default value
     let imageData = req.body.imageData;
@@ -20,6 +57,7 @@ router.post("/saveImage", (req, res) => {
 
     // Define filename for saving the image
     const fileName = "DYMOPNP_label.png";
+    //    const imagePath = "/Users/niclasgrunau/Downloads/a.png";
 
     // Define the file path where the image will be saved
     const filePath = path.join(__dirname, "..", "downloads", fileName);
@@ -30,70 +68,27 @@ router.post("/saveImage", (req, res) => {
     // Write image data to file
     fs.writeFileSync(filePath, imageBuffer);
 
-    res.status(200).json({ message: "Image saved successfully" });
-    console.log(`3. image saved ${new Date().toISOString()}`);
+    // Send a response indicating successful image saving
+    let isSaved = true;
+    res.status(200).send(isSaved);
   } catch (error) {
     console.error("Error saving image:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-  console.log(`4. saveImage post fertig ${new Date().toISOString()}`);
 });
 
 // Route to resize the image to a specific dimension
 router.post("/resize", (req, res) => {
-  console.log(`8. resize aufgerufen (server) ${new Date().toISOString()}`);
-  try {
-    // Define input and output file paths
-    const imagePath = path.join(__dirname, "..", "downloads/DYMOPNP_label.png");
-    const outputPath = path.join(__dirname, "..", "downloads/output.pdf");
-
-    // Execute image resize command using ImageMagick
-    exec(
-      `convert ${imagePath} -page 531x69 ${outputPath}`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error: ${error.message}`);
-          return res.status(500).json({ error: "Internal Server Error" });
-        }
-        console.log(`Command output: ${stdout}`);
-        res.json({ message: "Command executed successfully" });
-      }
-    );
-    console.log(`9. output gesichert ${new Date().toISOString()}`);
-  } catch (error) {
-    console.error("Error executing command:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-  console.log(`10. resize post fertig ${new Date().toISOString()}`);
+  // Send a response indicating successful image resizing
+  let isResized = true;
+  res.status(200).send(isResized);
 });
 
 // Route to print the resized image
 router.post("/download-command", (req, res) => {
-  console.log(
-    `14. downloads-command aufgerufen (server) ${new Date().toISOString()}`
-  );
-  try {
-    // Define the path of the resized image
-    const imagePath = path.join(__dirname, "..", "downloads/output.pdf");
-
-    // Execute print command using CUPS
-    exec(
-      `lp -d DYMO_LabelManager_PnP -o landscape -o PageSize=w35h252 -o fit-to-page ${imagePath}`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error: ${error.message}`);
-          return res.status(500).json({ error: "Internal Server Error" });
-        }
-        console.log(`Command output: ${stdout}`);
-        res.json({ message: "Command executed successfully" });
-      }
-    );
-    console.log(`15. geprintet ${new Date().toISOString()}`);
-  } catch (error) {
-    console.error("Error executing command:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-  console.log(`16. geprintet fertig ${new Date().toISOString()}`);
+  // Send a response indicating successful image printing
+  let isPrint = true;
+  res.status(200).send(isPrint);
 });
 
 module.exports = router;

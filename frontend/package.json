@@ -1,6 +1,7 @@
 {
   "name": "my-app",
   "version": "0.1.0",
+  "homepage": "https://lehre.bpm.in.tum.de/~ge83neb/dymo-pnp/frontend/build/",
   "private": true,
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
