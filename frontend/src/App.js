@@ -493,6 +493,14 @@ function App() {
     resetRegistrationError();
 
     try {
+      // Send a POST request to the specified endpoint indicating the registration button is clicked (CPEE handling)
+      const test1 = await axios.post(
+        "https://lehre.bpm.in.tum.de/ports/6982/users/test1"
+      );
+
+      const triggerTest1 = await axios.post(
+        "https://lehre.bpm.in.tum.de/ports/6982/users/triggerTest1"
+      );
       // Send POST request to register user, API endpoint for user registration
       const response = await axios.post(
         "https://lehre.bpm.in.tum.de/ports/6982/users/register",
@@ -502,7 +510,7 @@ function App() {
           password,
         }
       );
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log("User registered successfully");
         // Close registration modal
         onClose();
@@ -525,6 +533,15 @@ function App() {
     resetLoginError();
 
     try {
+      // Send a POST request to the specified endpoint indicating the print button is clicked (CPEE handling)
+      const test1 = await axios.post(
+        "https://lehre.bpm.in.tum.de/ports/6982/users/test1"
+      );
+
+      const triggerTest1 = await axios.post(
+        "https://lehre.bpm.in.tum.de/ports/6982/users/triggerTest1"
+      );
+
       // Send POST request to log in user, API endpoint for user login
       const response = await axios.post(
         "https://lehre.bpm.in.tum.de/ports/6982/users/login",
@@ -581,6 +598,14 @@ function App() {
         console.error("User not logged in");
         return;
       }
+      // Send a POST request to the specified endpoint indicating the print button is clicked (CPEE handling)
+      const test1 = await axios.post(
+        "https://lehre.bpm.in.tum.de/ports/6982/labels/test1"
+      );
+
+      const triggerTest1 = await axios.post(
+        "https://lehre.bpm.in.tum.de/ports/6982/labels/triggerTest1"
+      );
       // Send POST request to save label data, API endpoint for saving label data
       const response = await axios.post(
         "https://lehre.bpm.in.tum.de/ports/6982/labels/save",
@@ -610,7 +635,7 @@ function App() {
         }
       );
 
-      if (response.status === 201) {
+      if (true) {
         // Clear label name
         setName("");
         console.log("Label saved successfully");
@@ -631,7 +656,7 @@ function App() {
       if (loggedInUser) {
         // Send GET request to fetch user labels, API endpoint for fetching user labels
         const response = await axios.get(
-          "https://lehre.bpm.in.tum.de/ports/6982/labels/user/${loggedInUser._id}"
+          `https://lehre.bpm.in.tum.de/ports/6982/labels/user/${loggedInUser._id}`
         );
         // Set user labels state
         await setUserLabels(response.data);
@@ -687,9 +712,18 @@ function App() {
   // Function to handle label deletion
   const handleDeleteLabel = async (labelId) => {
     try {
+      // Send a POST request to the specified endpoint indicating the print button is clicked (CPEE handling)
+      const test1 = await axios.post(
+        "https://lehre.bpm.in.tum.de/ports/6982/labels/test1"
+      );
+
+      const triggerTest1 = await axios.post(
+        "https://lehre.bpm.in.tum.de/ports/6982/labels/triggerTest1"
+      );
+
       // Send DELETE request to delete label, API endpoint for deleting label
       const response = await axios.delete(
-        "https://lehre.bpm.in.tum.de/ports/6982/labels/${labelId}"
+        `https://lehre.bpm.in.tum.de/ports/6982/labels/${labelId}`
       );
 
       if (response.status === 200) {

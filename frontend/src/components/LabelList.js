@@ -67,7 +67,7 @@ const LabelList = ({
         My saved labels
       </Button>
       {/* Render the modal if labels are loaded and user is logged in */}
-      {labelsLoaded && loggedInUser && userLabels.length > 0 && (
+      {labelsLoaded && loggedInUser && (
         <Box mt={8}>
           {/* Modal for displaying saved labels */}
           <Modal isOpen={showModal} onClose={handleCloseModal} size="xl">

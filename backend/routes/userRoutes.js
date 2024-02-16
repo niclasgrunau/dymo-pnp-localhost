@@ -3,6 +3,9 @@ const router = express.Router();
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 
+// Variable to store if user is logged in
+let isLoggedIn = false;
+
 // Route to get all users
 router.get("/getUsers", async (req, res) => {
   try {
@@ -42,10 +45,45 @@ router.post("/register", async (req, res) => {
     // Save the new user to the database
     await newUser.save();
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(200).json({ message: "User registered successfully" });
   } catch (error) {
     console.error("Error registering user:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Trigger route for CPEE
+router.post("/test1", async (req, res) => {
+  try {
+    // Set the buttonIsClicked variable to true
+    isLoggedIn = true;
+    // Send a response indicating successful recording of button click
+    res.status(200).send("User logged in");
+  } catch (error) {
+    console.error("Error recording user login:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Trigger route for CPEE
+router.post("/triggerTest1", async (req, res) => {
+  // Variable to store the button toggle status
+  let loggedInToggle;
+
+  // Check if the  button is clicked
+  if (isLoggedIn) {
+    // If clicked, set toggle to true
+    loggedInToggle = true;
+    try {
+      res.status(200).send(loggedInToggle);
+    } catch (error) {
+      console.error("Error saving image:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    // If not clicked, set toggle to false
+    loggedInToggle = false;
+    res.status(200).send(loggedInToggle);
   }
 });
 
