@@ -13,7 +13,7 @@
     <timeout>https://cpee.org/services/timeout.php</timeout>
     <send>https-post://cpee.org/ing/correlators/message/send/</send>
     <receive>https-get://cpee.org/ing/correlators/message/receive/</receive>
-    <test>https://lehre.bpm.in.tum.de/ports/6982/image/test/</test>
+    <setTriggerPrintButtonClicked>https://lehre.bpm.in.tum.de/ports/6982/image/setTriggerPrintButtonClicked/</setTriggerPrintButtonClicked>
     <saveimage>https://lehre.bpm.in.tum.de/ports/6982/image/saveImage/</saveimage>
     <resizeimage>https://lehre.bpm.in.tum.de/ports/6982/image/resize/</resizeimage>
     <printimage>https://lehre.bpm.in.tum.de/ports/6982/image/download-command/</printimage>
@@ -105,7 +105,7 @@
           <_probability_max>300</_probability_max>
           <_probability_avg>200</_probability_avg>
         </_probability>
-        <call id="a1" endpoint="test">
+        <call id="a1" endpoint="setTriggerPrintButtonClicked">
           <parameters>
             <label>Set printButtonToggled boolean (true if user clicks print button in web app)</label>
             <method>:post</method>
