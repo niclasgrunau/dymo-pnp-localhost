@@ -1,4 +1,4 @@
-# dymo-pnp
+# dymo-pnp-localhost
 
 ## Intro
 
@@ -6,68 +6,26 @@ This project introduces a comprehensive web application built on the MERN (Mongo
 
 The application architecture is divided into two main components: a Node.js backend serving as the server-side logic and API endpoints, and a React frontend offering an intuitive user interface for label customization and management. Additionally, a local server component facilitates the direct connection to a DYMO PNP LabelManager device for printing commands.
 
-This version of the project needs to be run both on a local and remote server. For more details, check out the two repositories that are needed to deploy this project: the [local server](https://github.com/niclasgrunau/dymo-pnp-local.git) and the [main application](https://github.com/niclasgrunau/dymo-pnp.git).
+Note: the code of this version is not documented. For a documented version, check out the [server version](https://github.com/niclasgrunau/dymo-pnp).
 
+This version of the project is designed to run locally on your machine. Follow these steps to deploy it:
 
-## Deployment
+---
 
-The frontend is already deployed on the [lehre server](https://lehre.bpm.in.tum.de/). To deploy the remote server and local server of the project, follow these steps:
+### Cloning the Project
 
-### Local server
-
-Clone the following project to your local machine:
-
-```bash
-git clone https://github.com/niclasgrunau/dymo-pnp-local.git
-```
-
-To prevent errors, you might install express and cors before running the server:
+First, clone this project to your local machine:
 
 ```bash
-cd dymo-pnp-local
-npm install express
-npm install cors
+git clone https://github.com/niclasgrunau/dymo-pnp-localhost.git
 ```
 
-Navigate to the root directory of the project and start local server:
-
-```bash
-node localServer.js
-```
-
-Also, you need to install 2 essential packages.
-
-#### ImageMagick
-
-ImageMagick is a powerful software suite used for manipulating images. It is employed to resize labels to a fitting size for the DYMO PNP LabelManager without compromising quality. You can download it from [here](https://imagemagick.org/script/download.php).
-
-#### CUPS
-
-CUPS (Common Unix Printing System) is a printing system for Unix-like operating systems, including Linux and MacOS. It facilitates printing tasks and is utilized to print labels via a shell script in this application. You can find instructions for downloading it for [Linux](https://ubuntu.com/server/docs/service-cups), [MacOS](https://x-series-support.lightspeedhq.com/hc/en-us/articles/205052024-Enabling-CUPS-Printer-Interface-for-Mac) or [Windows](https://project-insanity.org/2022/11/01/use-cups-printing-server-on-windows-10/).
-
-
-
-
-### Remote server
-
-#### Connected to initial directory
-
-If you are able to run "npm start" on [https://lehre.bpm.in.tum.de/~ge83neb/dymo-pnp/backend/](https://lehre.bpm.in.tum.de/~ge83neb/dymo-pnp/backend/) while being conected to the lehre server, the web application will run [on the server port](https://lehre.bpm.in.tum.de/ports/6982/) and [here](https://lehre.bpm.in.tum.de/~ge83neb/dymo-pnp/frontend/build/). If not, follow the steps below.
-
-#### Else
-
-First, connect via SSH to the [lehre server](https://lehre.bpm.in.tum.de/) and change to a directory where you want to save the project.
-
-Then, clone the following project to your server index:
-
-```bash
-git clone https://github.com/niclasgrunau/dymo-pnp.git
-```
+### Installing Dependencies
 
 Navigate to the root directory of the project and install dependencies:
 
 ```bash
-cd dymo-pnp
+cd dymo-pnp-localhost
 npm install
 ```
 
@@ -85,20 +43,49 @@ cd ../frontend
 npm install
 ```
 
-For deploying, navigate to the frontend directory and create a static build of the frontend:
+---
+
+### Installing Local Packages
+
+Before running the application, you need to install 2 essential packages.
+
+#### ImageMagick
+
+ImageMagick is a powerful software suite used for manipulating images. It is employed to resize labels to a fitting size for the DYMO PNP LabelManager without compromising quality. You can download it from [here](https://imagemagick.org/script/download.php).
+
+#### CUPS
+
+CUPS (Common Unix Printing System) is a printing system for Unix-like operating systems, including Linux and MacOS. It facilitates printing tasks and is utilized to print labels via a shell script in this application. You can find instructions for downloading it for [Linux](https://ubuntu.com/server/docs/service-cups), [MacOS](https://x-series-support.lightspeedhq.com/hc/en-us/articles/205052024-Enabling-CUPS-Printer-Interface-for-Mac) or [Windows](https://project-insanity.org/2022/11/01/use-cups-printing-server-on-windows-10/).
+
+---
+
+### Running the Project
+
+Now that you have installed all dependencies and locla packages, you can start the backend and frontend servers:
+
+#### Backend Server
+
+In the backend directory, run:
 
 ```bash
-npm run build
-```
-
-Lastly, navigate to the backend directory and start the server:
-
-```bash
-cd ../backend
 npm start
 ```
 
-Now, the web application will run [on the server port](https://lehre.bpm.in.tum.de/ports/6982/) and [here](https://lehre.bpm.in.tum.de/~ge83neb/dymo-pnp/frontend/build/).
+#### Frontend Server
+
+In the frontend directory, run:
+
+```bash
+npm start
+```
+
+---
+
+### Accessing the Application
+
+Once both the backend and frontend servers are running, you can access the application by opening your web browser and navigating to [http://localhost:3000](http://localhost:3000).
+
+Please feel free to modify the port configurations in the code if you wish to run the application on different ports.
 
 ---
 
@@ -107,58 +94,6 @@ Now, the web application will run [on the server port](https://lehre.bpm.in.tum.
 ![Screenshot 1](https://github.com/niclasgrunau/dymo-pnp-localhost/blob/main/docs/frontend_img1.png)
 
 ![Screenshot 2](https://github.com/niclasgrunau/dymo-pnp-localhost/blob/main/docs/frontend_img2.png)
-
----
-### CPEE
-
-CPEE (Cloud Process Execution Engine) is an execution engine. Different process sequences that occur in the application are shown below in CPEE.
-
-#### Screenshot 1: Print Label ([see in CPEE](https://cpee.org/flow/index.html?monitor=https://cpee.org/flow/engine/31679/))
-![Screenshot 1](https://github.com/niclasgrunau/dymo-pnp/blob/main/cpee-instances/dymo-pnp-1-print.png)
-
-**Description:**
-- User in on web app
-- User customizes label
-- While print button not clicked:
-  - Check if print button was clicked
-- Save image
-- Resize image
-- Print image
-- DYMO PNP LM prints label
-- Person takes label from printer
-
-
-#### Screenshot 2: Login + Save Label ([see in CPEE](https://cpee.org/flow/index.html?monitor=https://cpee.org/flow/engine/31789/))
-![Screenshot 2](https://github.com/niclasgrunau/dymo-pnp/blob/main/cpee-instances/dymo-pnp-2-saveLabel.png)
-
-**Description:**
-- User in on web app
-- While user not logged in:
-  - Check if login button was clicked and 200 status was sent
-- User customizes label
-- While save label button not clicked:
-  - Check if save label button was clicked and 200 status was sent
-
-
-#### Screenshot 3: Login + Delete Label ([see in CPEE](https://cpee.org/flow/index.html?monitor=https://cpee.org/flow/engine/31792/))
-![Screenshot 3](https://github.com/niclasgrunau/dymo-pnp/blob/main/cpee-instances/dymo-pnp-3-deleteLabel.png)
-
-**Description:**
-- User in on web app
-- While user not logged in:
-  - Check if login button was clicked and 200 status was sent
-- While delete label button not clicked:
-  - Check if delete label button was clicked and 200 status was sent
-
-
-#### Screenshot 4: Registering ([see in CPEE](https://cpee.org/flow/index.html?monitor=https://cpee.org/flow/engine/31793/))
-![Screenshot 4](https://github.com/niclasgrunau/dymo-pnp/blob/main/cpee-instances/dymo-pnp-4-register.png)
-
-**Description:**
-- User in on web app
-- While user not logged in:
-  - Check if register button was clicked and 200 status was sent
- 
 
 ---
 
