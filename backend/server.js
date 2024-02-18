@@ -46,7 +46,7 @@ app.get("*", (req, res) => {
 });
 
 // Define the port for the server to listen on
-const PORT = process.env.PORT || 6982;
+const PORT = process.env.PORT || 3001;
 
 // Start the server
 app.listen(PORT, () => {

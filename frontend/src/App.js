@@ -494,16 +494,10 @@ function App() {
 
     try {
       // Send a POST request to the specified endpoint indicating the registration button is clicked (CPEE handling)
-      const test1 = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/users/test1"
-      );
 
-      const triggerTest1 = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/users/triggerTest1"
-      );
       // Send POST request to register user, API endpoint for user registration
       const response = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/users/register",
+        "http://localhost:3001/users/register",
         {
           name,
           email,
@@ -534,22 +528,12 @@ function App() {
 
     try {
       // Send a POST request to the specified endpoint indicating the print button is clicked (CPEE handling)
-      const test1 = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/users/test1"
-      );
-
-      const triggerTest1 = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/users/triggerTest1"
-      );
 
       // Send POST request to log in user, API endpoint for user login
-      const response = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/users/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post("http://localhost:3001/users/login", {
+        email,
+        password,
+      });
 
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -598,42 +582,32 @@ function App() {
         console.error("User not logged in");
         return;
       }
-      // Send a POST request to the specified endpoint indicating the print button is clicked (CPEE handling)
-      const test1 = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/labels/test1"
-      );
 
-      const triggerTest1 = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/labels/triggerTest1"
-      );
       // Send POST request to save label data, API endpoint for saving label data
-      const response = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/labels/save",
-        {
-          userId: loggedInUser._id,
-          name: name,
-          text: inputText,
-          fontStyle: selectedFont,
-          fontSize: fontSize,
-          isBold: isBold,
-          isItalic: isItalic,
-          isUnderline: isUnderline,
-          textAlignment: textAlignLeft
-            ? "left"
-            : textAlignRight
-            ? "right"
-            : "center",
-          verticalAlignment: verticalAlignTop
-            ? "top"
-            : verticalAlignBottom
-            ? "bottom"
-            : "middle",
-          isQRCodeUsed: qrCodeVisible,
-          url: urlInput,
-          shortenedUrl: shortenedUrl,
-          createdAt: createdAt,
-        }
-      );
+      const response = await axios.post("http://localhost:3001/labels/save", {
+        userId: loggedInUser._id,
+        name: name,
+        text: inputText,
+        fontStyle: selectedFont,
+        fontSize: fontSize,
+        isBold: isBold,
+        isItalic: isItalic,
+        isUnderline: isUnderline,
+        textAlignment: textAlignLeft
+          ? "left"
+          : textAlignRight
+          ? "right"
+          : "center",
+        verticalAlignment: verticalAlignTop
+          ? "top"
+          : verticalAlignBottom
+          ? "bottom"
+          : "middle",
+        isQRCodeUsed: qrCodeVisible,
+        url: urlInput,
+        shortenedUrl: shortenedUrl,
+        createdAt: createdAt,
+      });
 
       if (true) {
         // Clear label name
@@ -656,7 +630,7 @@ function App() {
       if (loggedInUser) {
         // Send GET request to fetch user labels, API endpoint for fetching user labels
         const response = await axios.get(
-          `https://lehre.bpm.in.tum.de/ports/6982/labels/user/${loggedInUser._id}`
+          `http://localhost:3001/labels/user/${loggedInUser._id}`
         );
         // Set user labels state
         await setUserLabels(response.data);
@@ -712,18 +686,9 @@ function App() {
   // Function to handle label deletion
   const handleDeleteLabel = async (labelId) => {
     try {
-      // Send a POST request to the specified endpoint indicating the print button is clicked (CPEE handling)
-      const test1 = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/labels/test1"
-      );
-
-      const triggerTest1 = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/labels/triggerTest1"
-      );
-
       // Send DELETE request to delete label, API endpoint for deleting label
       const response = await axios.delete(
-        `https://lehre.bpm.in.tum.de/ports/6982/labels/${labelId}`
+        `http://localhost:3001/labels/${labelId}`
       );
 
       if (response.status === 200) {
@@ -791,12 +756,9 @@ function App() {
       document.body.removeChild(a);
 
       // Send POST request to save image, API endpoint for saving images
-      await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/image/saveImage",
-        {
-          imageData: dataUrl.split(",")[1],
-        }
-      );
+      await axios.post("http://localhost:3001/image/saveImage", {
+        imageData: dataUrl.split(",")[1],
+      });
 
       //Call the resize function
       await resizeImage();
@@ -810,32 +772,8 @@ function App() {
     try {
       // Send POST request to save image, API endpoint for resizing image locally
       // local-resize executes a shell script (exec) with the package ImageMagick that is processed locally and not on the remote server
-      const response = await axios.post("http://localhost:6983/local-resize");
+      const response = await axios.post("http://localhost:3001/image/resize");
       console.log(response.data.message);
-    } catch (error) {
-      console.error("Error:", error.message);
-    }
-  };
-
-  // Function to send a request indicating that the print button is clicked
-  const printButtonClick = async () => {
-    try {
-      // Send a POST request to the specified endpoint indicating the print button is clicked (CPEE handling)
-      const response = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/image/setPrintButtonClick"
-      );
-    } catch (error) {
-      console.error("Error:", error.message);
-    }
-  };
-
-  // Function to trigger the print button clicked event
-  const triggerPrintButtonClicked = async () => {
-    try {
-      // Send a POST request to the specified endpoint to trigger the print button clicked event (CPEE handling)
-      const response = await axios.post(
-        "https://lehre.bpm.in.tum.de/ports/6982/image/setTriggerPrintButtonClicked"
-      );
     } catch (error) {
       console.error("Error:", error.message);
     }
@@ -843,12 +781,6 @@ function App() {
 
   // Function to handle image download
   const handleDownloadImage = async () => {
-    // Call function to save state if print button is clicked
-    await printButtonClick();
-
-    // Call function to send state if print button is clicked to CPEE instance
-    await triggerPrintButtonClicked();
-
     // Call function to download image
     await downloadImage();
 
@@ -856,7 +788,7 @@ function App() {
       // Send POST request to initiate downloads command, API endpoint for downloads command
       // download-command executes a shell script (exec) with the package CUPS that is processed locally and not on the remote server
       const response = await axios.post(
-        "http://localhost:6983/download-command"
+        "http://localhost:3001/image/download-command"
       );
     } catch (error) {
       console.error("Error:", error.message);
