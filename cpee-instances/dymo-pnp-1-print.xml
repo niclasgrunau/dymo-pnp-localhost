@@ -19,7 +19,7 @@
     <printimage>https://lehre.bpm.in.tum.de/ports/6982/image/download-command/</printimage>
   </endpoints>
   <attributes>
-    <info>dymo-pnp</info>
+    <info>dymo-pnp-print</info>
     <guarded>none</guarded>
     <modeltype>CPEE</modeltype>
     <theme>preset</theme>
