@@ -20,6 +20,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
+  Select,
 } from "@chakra-ui/react";
 import "./App.css";
 
@@ -63,6 +64,8 @@ function App() {
   const [labelsLoaded, setLabelsLoaded] = useState(false);
   const [fetchLabel, setFetchLabel] = useState(true);
   const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
+  const [printOrderReceived, setPrintOrderReceived] = useState(false);
+  const [numPrints, setNumPrints] = useState(1);
   const [updateButtonClicked, setUpdateButtonClicked] = useState(false);
   const [shortenedUrl, setShortenedUrl] = useState("");
   const [qrCodeAlignment, setQrCodeAlignment] = useState("left");
@@ -297,6 +300,8 @@ function App() {
   // Function to close print modal
   const closePrintModal = () => {
     setIsPrintModalOpen(false);
+    setPrintOrderReceived(false);
+    setNumPrints(1);
   };
 
   // Function to generate QR code
@@ -787,9 +792,10 @@ function App() {
     try {
       // Send POST request to initiate downloads command, API endpoint for downloads command
       // download-command executes a shell script (exec) with the package CUPS that is processed locally and not on the remote server
-      const response = await axios.post(
-        "http://localhost:3001/image/download-command"
-      );
+      for (let i = 0; i < numPrints; i++) {
+        await axios.post("http://localhost:3001/image/download-command");
+      }
+      setPrintOrderReceived(true);
     } catch (error) {
       console.error("Error:", error.message);
     }
@@ -1184,6 +1190,19 @@ function App() {
                     }}
                   >
                     <Center>
+                      <Text mr="2">Prints:</Text>
+                      <Select
+                        width="65px"
+                        marginRight="30px"
+                        value={numPrints}
+                        onChange={(e) => setNumPrints(parseInt(e.target.value))}
+                      >
+                        {[...Array(9).keys()].map((num) => (
+                          <option key={num + 1} value={num + 1}>
+                            {num + 1}
+                          </option>
+                        ))}
+                      </Select>
                       <Button
                         colorScheme="teal"
                         onClick={handleDownloadImage}
@@ -1192,6 +1211,11 @@ function App() {
                         Yes, print!
                       </Button>
                     </Center>
+                    {printOrderReceived && (
+                      <Text textAlign="center" marginTop="20px" color="teal">
+                        Print order has been sent
+                      </Text>
+                    )}
                   </ModalBody>
                 </ModalContent>
               </Modal>
