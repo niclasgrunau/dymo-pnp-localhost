@@ -93,6 +93,59 @@ Please feel free to modify the port configurations in the code if you wish to ru
 
 ![Screenshot 2](https://github.com/niclasgrunau/dymo-pnp-localhost/blob/main/docs/frontend_img2.png)
 
+
+---
+### CPEE
+
+CPEE (Cloud Process Execution Engine) is an execution engine. Different process sequences that occur in the application are shown below in CPEE.
+
+#### Screenshot 1: Print Label ([see in CPEE](https://cpee.org/flow/index.html?monitor=https://cpee.org/flow/engine/31679/))
+![Screenshot 1](https://github.com/niclasgrunau/dymo-pnp/blob/main/cpee-instances/dymo-pnp-1-print.png)
+
+**Description:**
+- User in on web app
+- User customizes label
+- While print button not clicked:
+  - Check if print button was clicked
+- Save image
+- Resize image
+- Print image
+- DYMO PNP LM prints label
+- Person takes label from printer
+
+
+#### Screenshot 2: Login + Save Label ([see in CPEE](https://cpee.org/flow/index.html?monitor=https://cpee.org/flow/engine/31789/))
+![Screenshot 2](https://github.com/niclasgrunau/dymo-pnp/blob/main/cpee-instances/dymo-pnp-2-saveLabel.png)
+
+**Description:**
+- User in on web app
+- While user not logged in:
+  - Check if login button was clicked and 200 status was sent
+- User customizes label
+- While save label button not clicked:
+  - Check if save label button was clicked and 200 status was sent
+
+
+#### Screenshot 3: Login + Delete Label ([see in CPEE](https://cpee.org/flow/index.html?monitor=https://cpee.org/flow/engine/31792/))
+![Screenshot 3](https://github.com/niclasgrunau/dymo-pnp/blob/main/cpee-instances/dymo-pnp-3-deleteLabel.png)
+
+**Description:**
+- User in on web app
+- While user not logged in:
+  - Check if login button was clicked and 200 status was sent
+- While delete label button not clicked:
+  - Check if delete label button was clicked and 200 status was sent
+
+
+#### Screenshot 4: Registering ([see in CPEE](https://cpee.org/flow/index.html?monitor=https://cpee.org/flow/engine/31793/))
+![Screenshot 4](https://github.com/niclasgrunau/dymo-pnp/blob/main/cpee-instances/dymo-pnp-4-register.png)
+
+**Description:**
+- User in on web app
+- While user not logged in:
+  - Check if register button was clicked and 200 status was sent
+ 
+
 ---
 
 ### API Endpoints
