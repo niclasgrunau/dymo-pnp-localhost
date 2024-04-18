@@ -6,7 +6,7 @@ import { MdOutlineTextDecrease, MdOutlineTextIncrease } from "react-icons/md";
 const FontSizeControls = ({ fontSize, onChange }) => {
   // Handle decrease font size
   const handleDecrease = () => {
-    const newFontSize = Math.max(parseInt(fontSize) - 1, 1);
+    const newFontSize = Math.max(parseInt(fontSize) - 1, 20);
     onChange(newFontSize.toString());
   };
 
@@ -23,7 +23,7 @@ const FontSizeControls = ({ fontSize, onChange }) => {
     // Check if input is empty or within valid range
     if (
       inputText === "" ||
-      (!isNaN(inputText) && inputText >= 1 && inputText <= 80)
+      (!isNaN(inputText) && inputText >= 20 && inputText <= 80)
     ) {
       onChange(inputText);
     }

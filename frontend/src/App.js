@@ -39,7 +39,7 @@ import QrCodeAlignmentControls from "./components/qrcode/QrCodeAlignmentControls
 function App() {
   // Define state variables and their setter functions using useState hook
   const [inputText, setInputText] = useState("");
-  const [fontSize, setFontSize] = useState("30");
+  const [fontSize, setFontSize] = useState("50");
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
@@ -77,6 +77,7 @@ function App() {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [showLabels, setShowLabels] = useState(false);
   const [createdAt, setCreatedAt] = useState(null);
+  const [urlIsValid, setUrlIsValid] = useState(true);
   const [registrationError, setRegistrationError] = useState(null);
   const [loginStatus, setLoginStatus] = useState({
     success: true,
@@ -268,12 +269,14 @@ function App() {
       setShortenedUrl("");
     }
     setQrCodeVisible(!qrCodeVisible);
+    setUrlIsValid(true);
   };
 
   // Function to handle textarea change
   const handleTextareaChange = (event) => {
     // Maximum number of lines allowed
-    const maxLines = 2;
+    // Line settings are for the case to increase the number of lines
+    const maxLines = 1;
 
     // Get input value
     const inputValue = event.target.value;
@@ -340,7 +343,16 @@ function App() {
           generateImage();
 
           // Calculate position of QR code
-          const qrCodeX = qrCodeAlignment === "left" ? -10 : canvas.width - 80;
+          let qrCodeX;
+          if (!inputText.trim()) {
+            qrCodeX = (canvas.width - 90) / 2; // Center the QR code horizontally
+          } else {
+            if (qrCodeAlignment === "left") {
+              qrCodeX = -10;
+            } else if (qrCodeAlignment === "right") {
+              qrCodeX = canvas.width - 80;
+            }
+          }
           const qrCodeY = (canvas.height - 90) / 2;
 
           // Draw QR code on canvas
@@ -376,17 +388,39 @@ function App() {
       const canvas = canvasRef.current;
       const context = canvas.getContext("2d");
 
+      // Get user input text
+      const userText = inputText || "";
+
+      // Calculate text width
+      const textWidth = context.measureText(userText).width;
+
+      // Calculate minimum canvas width based on text width and QR code visibility
+      const minimumCanvasWidth = qrCodeVisible ? textWidth + 98 : textWidth + 8;
+
+      // Set canvas width
+      canvas.width = minimumCanvasWidth;
+
       // Set background color of canvas
       context.fillStyle = "white";
 
-      // Fill canvas with white color (should do the same as the line above, but sometimes only worked with both)
+      // Fill canvas with background color
       context.fillRect(0, 0, canvas.width, canvas.height);
 
       // Size of QR code
       const qrCodeSize = 90;
 
       // Start position for text
-      const textStartX = qrCodeVisible ? qrCodeSize : 0;
+      let textStartX = 0;
+
+      if (qrCodeVisible) {
+        if (qrCodeAlignment === "left") {
+          // If QR code is aligned to the left
+          textStartX = qrCodeSize;
+        } else {
+          // ... or right
+          textStartX = 0;
+        }
+      }
 
       // Initialize dynamic font size
       let dynamicFontSize = parseFloat(fontSize);
@@ -402,61 +436,14 @@ function App() {
       // Set baseline for text
       context.textBaseline = "middle";
 
-      // Get user input text
-      const userText = inputText || "";
-
       // Split text into lines
       const lines = userText.split("\n");
 
       // Iterate through each line
       lines.forEach((line, index) => {
-        let startY;
-        if (verticalAlignTop) {
-          // Set Y position to font size
-          startY = dynamicFontSize;
-        } else if (verticalAlignMiddle) {
-          // Calculate Y position
-          startY =
-            canvas.height / 2 -
-            ((lines.length - 1) * dynamicFontSize +
-              (lines.length - 1) * parseInt(lineSpacing)) /
-              2;
-        } else {
-          // If text is vertically aligned to bottom
-          startY =
-            canvas.height -
-            lines.length * dynamicFontSize -
-            (lines.length - 1) * parseInt(lineSpacing);
-        }
-
-        // Get width of text
-        let textWidth = context.measureText(line).width;
-        let startX;
-
-        // Adjust font size if text width exceeds canvas width
-        while (textWidth > canvas.width - 2 * textStartX) {
-          // Decrease font size
-          dynamicFontSize -= 2;
-
-          // Update font size and family
-          context.font = `${isBold ? "bold " : ""}${
-            isItalic ? "italic " : ""
-          }${dynamicFontSize}px ${selectedFont}`;
-
-          // Recalculate text width
-          textWidth = context.measureText(line).width;
-        }
-
+        let startY = (69 + 13) / 2;
         // If text is aligned to left
-        if (textAlignLeft) {
-          // Set X position to text start
-          startX = textStartX;
-        } else if (textAlignRight) {
-          startX = canvas.width - textWidth - textStartX;
-        } else {
-          // Calculate X position for center alignment
-          startX = (canvas.width - textWidth) / 2;
-        }
+        let startX = textStartX;
 
         // Draw text on canvas
         context.fillText(
@@ -739,8 +726,10 @@ function App() {
 
       // Set the shortened URL state
       setShortenedUrl(displayedUrl);
+      setUrlIsValid(true);
     } catch (error) {
       console.error("Error creating TinyURL:", error.response || error);
+      setUrlIsValid(false);
     } finally {
       // Finally block to execute code regardless of error, set loading state to false
       setLoading(false);
@@ -760,9 +749,13 @@ function App() {
       //a.click();
       document.body.removeChild(a);
 
+      // Get canvas width
+      const canvasWidth = canvas.width;
+
       // Send POST request to save image, API endpoint for saving images
       await axios.post("http://localhost:3001/image/saveImage", {
         imageData: dataUrl.split(",")[1],
+        canvasWidth: canvasWidth,
       });
 
       //Call the resize function
@@ -1040,17 +1033,6 @@ function App() {
               />
 
               <Spacer marginTop={{ base: "4", md: "0" }} />
-
-              <AlignmentControls
-                textAlignLeft={textAlignLeft}
-                textAlignCenter={textAlignCenter}
-                textAlignRight={textAlignRight}
-                toggleAlignment={toggleAlignment}
-                verticalAlignTop={verticalAlignTop}
-                verticalAlignMiddle={verticalAlignMiddle}
-                verticalAlignBottom={verticalAlignBottom}
-                toggleVerticalAlignment={toggleVerticalAlignment}
-              />
             </Box>
             <Box
               width="100%"
@@ -1100,7 +1082,15 @@ function App() {
               </Box>
             </Box>
           </Box>
-          <Box marginTop="80px">
+          <Box marginLeft={{ base: "0", md: "8" }}>
+            <Box marginBottom="20px"></Box>
+            {qrCodeVisible && !urlIsValid && (
+              <Text color="red" fontSize="sm">
+                Invalid URL. Please enter a valid URL.
+              </Text>
+            )}
+          </Box>
+          <Box marginTop="20px">
             <Heading as="h1" size="md" marginBottom="7" fontFamily="">
               Label preview
             </Heading>
@@ -1109,7 +1099,6 @@ function App() {
               flexDirection="column"
               alignItems="center"
               width="100%"
-              maxWidth="3xl"
               margin="auto"
               marginTop="30px"
               border="1px solid #ccc"
@@ -1127,7 +1116,7 @@ function App() {
               }}
             >
               <Box>
-                <canvas ref={canvasRef} width="531" height="69" />
+                <canvas ref={canvasRef} height="69" />
               </Box>
             </Box>
           </Box>
