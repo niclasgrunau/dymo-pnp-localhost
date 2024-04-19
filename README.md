@@ -95,6 +95,14 @@ Please feel free to modify the port configurations in the code if you wish to ru
 
 ---
 
+### Sequence diagram
+
+#### Use of the application via localhost (local backend)
+
+![Sqeuence diagram](https://github.com/niclasgrunau/dymo-pnp/blob/main/sequence-diagrams/projectmodell_frontend_local.png)
+
+---
+
 ### API Endpoints
 ### User Routes
 
